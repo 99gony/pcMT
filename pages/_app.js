@@ -1,7 +1,19 @@
-import '../styles/globals.css'
+import React from "react";
+import { createGlobalStyle } from "styled-components";
+const GlobalStyled = createGlobalStyle`
+  *{
+    padding:0;
+    margin:0;
+  }
+`;
 
-function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
-}
+const App = ({ Component }) => {
+  return (
+    <>
+      <GlobalStyled />
+      <Component />
+    </>
+  );
+};
 
-export default MyApp
+export default App;
