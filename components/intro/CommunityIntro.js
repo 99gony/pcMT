@@ -1,8 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import Link from "next/link";
 
-const ChatIntroWrapper = styled.div`
+const CommunityIntroWrapper = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -13,7 +14,13 @@ const ChatIntroWrapper = styled.div`
 `;
 
 const CommunityIntro = (props) => {
-  return <ChatIntroWrapper></ChatIntroWrapper>;
+  return (
+    <CommunityIntroWrapper>
+      <Link href="/community">
+        <a>커뮤니티</a>
+      </Link>
+    </CommunityIntroWrapper>
+  );
 };
 
 CommunityIntro.propTypes = {};
