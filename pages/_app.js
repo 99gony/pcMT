@@ -1,5 +1,7 @@
 import React from "react";
 import { createGlobalStyle } from "styled-components";
+import { wrapper } from "../store";
+
 const GlobalStyled = createGlobalStyle`
   *{
     padding:0;
@@ -16,4 +18,4 @@ const App = ({ Component }) => {
   );
 };
 
-export default App;
+export default wrapper.withRedux(App);

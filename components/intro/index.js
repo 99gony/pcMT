@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import ChatIntro from "./ChatIntro";
 import styled from "styled-components";
 import CommunityIntro from "./CommunityIntro";
 import Login from "../Auth/Login";
+import { useSelector } from "react-redux";
+import UserInfo from "../Auth/UserInfo";
 
 const IntroWrapper = styled.div`
   height: 570px;
@@ -12,12 +14,12 @@ const IntroWrapper = styled.div`
 `;
 
 const Intro = (props) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const userInfo = useSelector((state) => state.user.userInfo);
   return (
     <IntroWrapper>
       <ChatIntro></ChatIntro>
       <CommunityIntro />
-      {isLoggedIn ? <div>로그인되었습니다.</div> : <Login />}
+      {userInfo ? <UserInfo /> : <Login />}
     </IntroWrapper>
   );
 };
