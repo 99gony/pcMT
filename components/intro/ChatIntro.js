@@ -20,6 +20,8 @@ const ChatsWrapper = styled.h2`
   background-color: ${({ background }) => background};
   color: white;
   font-size: 21px;
+  font-weight: bold;
+  height: 46px;
   padding: 8px 16px;
   border-radius: ${({ alignEnd }) =>
     alignEnd ? "24px 3px 24px 24px" : "3px 24px 24px 24px"};

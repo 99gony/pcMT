@@ -14,12 +14,12 @@ const IntroWrapper = styled.div`
 `;
 
 const Intro = (props) => {
-  const userInfo = useSelector((state) => state.user.userInfo);
+  const authInfo = useSelector((state) => state.auth.authInfo);
   return (
     <IntroWrapper>
       <ChatIntro></ChatIntro>
       <CommunityIntro />
-      {userInfo ? <UserInfo /> : <Login />}
+      {authInfo ? <UserInfo /> : <Login />}
     </IntroWrapper>
   );
 };

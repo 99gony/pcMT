@@ -1,12 +1,20 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { serverAPI } from "./server";
+import { serverAPI } from "./config";
+
+axios.defaults.baseURL = "http://localhost:3000";
+axios.defaults.withCredentials = true;
+
+export const toggleAuthAction = createAsyncThunk("auth", async () => {
+  const result = await axios.get(serverAPI + "/auth");
+  return result.data;
+});
 
 export const loginAction = createAsyncThunk(
-  "user/login",
+  "auth/login",
   async (data, { rejectWithValue }) => {
     try {
-      const result = await axios.post(serverAPI + "/user/login", data);
+      const result = await axios.post(serverAPI + "/auth/login", data);
       return result.data;
     } catch (err) {
       return rejectWithValue(err.response.data);
@@ -15,10 +23,10 @@ export const loginAction = createAsyncThunk(
 );
 
 export const logoutAction = createAsyncThunk(
-  "user/logout",
+  "auth/logout",
   async (_, { rejectWithValue }) => {
     try {
-      await axios.get(serverAPI + "/user/logout");
+      await axios.get(serverAPI + "/auth/logout");
     } catch (err) {
       return rejectWithValue(err.response.data);
     }
@@ -26,10 +34,10 @@ export const logoutAction = createAsyncThunk(
 );
 
 export const joinAction = createAsyncThunk(
-  "user/join",
+  "auth/join",
   async (data, { rejectWithValue }) => {
     try {
-      const result = await axios.post(serverAPI + "/user/join", data);
+      const result = await axios.post(serverAPI + "/auth/join", data);
       return result.data;
     } catch (err) {
       return rejectWithValue(err.response.data);

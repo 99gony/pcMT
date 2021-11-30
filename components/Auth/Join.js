@@ -2,15 +2,16 @@ import React, { useCallback, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
-import { joinAction } from "../../store/action/user";
+import { joinAction } from "../../store/action/auth";
 import { useRouter } from "next/router";
-import { offJoinErr } from "../../store/modules/user";
+import { LoadingOutlined } from "@ant-design/icons";
 
 const Join = (props) => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const joinErr = useSelector((state) => state.user.joinErr);
-  const userInfo = useSelector((state) => state.user.userInfo);
+  const joinErr = useSelector((state) => state.auth.joinErr);
+  const joinLoading = useSelector((state) => state.auth.joinLoading);
+  const authInfo = useSelector((state) => state.auth.authInfo);
 
   const {
     register,
@@ -27,17 +28,10 @@ const Join = (props) => {
   }, []);
 
   useEffect(() => {
-    if (joinErr) {
-      alert(joinErr);
-      dispatch(offJoinErr());
-    }
-  }, [joinErr]);
-
-  useEffect(() => {
-    if (userInfo) {
+    if (authInfo) {
       router.replace("/");
     }
-  }, [userInfo]);
+  }, [authInfo]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -118,7 +112,8 @@ const Join = (props) => {
         />
         {errors.re_password && <span>{errors.re_password.message}</span>}
       </div>
-      <button>제출</button>
+      {joinErr && <span>{joinErr}</span>}
+      <button>{joinLoading ? <LoadingOutlined /> : "제출"}</button>
     </form>
   );
 };

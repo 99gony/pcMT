@@ -1,6 +1,9 @@
-import React from "react";
+import "antd/dist/antd.css";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { createGlobalStyle } from "styled-components";
 import { wrapper } from "../store";
+import { toggleAuthAction } from "../store/action/auth";
 
 const GlobalStyled = createGlobalStyle`
   *{
@@ -10,6 +13,12 @@ const GlobalStyled = createGlobalStyle`
 `;
 
 const App = ({ Component }) => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(toggleAuthAction());
+  }, []);
+
   return (
     <>
       <GlobalStyled />
