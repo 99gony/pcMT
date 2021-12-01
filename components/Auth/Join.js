@@ -23,12 +23,23 @@ const Join = (props) => {
   const password = useRef("");
   password.current = watch("password", "");
 
-  const onSubmit = useCallback((data) => {
-    dispatch(joinAction(data));
-  }, []);
+  const onSubmit = useCallback(
+    (data) => {
+      if (authInfo) {
+        return dispatch(joinAction({ ...data, id: authInfo.id }));
+      }
+      dispatch(joinAction(data));
+    },
+    [authInfo]
+  );
 
   useEffect(() => {
-    if (authInfo) {
+    if (
+      authInfo?.nickname &&
+      authInfo.mbti &&
+      authInfo.gender &&
+      authInfo.character
+    ) {
       router.replace("/");
     }
   }, [authInfo]);
@@ -70,49 +81,52 @@ const Join = (props) => {
         />
         {errors.character && <span>캐릭터를 입력해주세요.</span>}
       </div>
+      {!authInfo && (
+        <>
+          <div className="inputContainer">
+            <input
+              placeholder="이메일"
+              autoComplete="off"
+              {...register("email", {
+                required: true,
+                pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+              })}
+            />
+            {errors.email && <span>이메일 형식에 맞게 입력해주세요.</span>}
+          </div>
 
-      <div className="inputContainer">
-        <input
-          placeholder="이메일"
-          autoComplete="off"
-          {...register("email", {
-            required: true,
-            pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-          })}
-        />
-        {errors.email && <span>이메일 형식에 맞게 입력해주세요.</span>}
-      </div>
+          <div className="inputContainer">
+            <input
+              placeholder="비밀번호"
+              type="password"
+              {...register("password", {
+                required: true,
+                pattern: /^[a-zA-Z](?=.*[a-zA-Z])(?=.*[0-9]).{5,15}$/,
+              })}
+            />
+            {errors.password && (
+              <span>
+                문자, 숫자를 조합하여 최소 6자 이상, 15자 이하로 입력해주세요.
+              </span>
+            )}
+          </div>
 
-      <div className="inputContainer">
-        <input
-          placeholder="비밀번호"
-          type="password"
-          {...register("password", {
-            required: true,
-            pattern: /^[a-zA-Z](?=.*[a-zA-Z])(?=.*[0-9]).{5,15}$/,
-          })}
-        />
-        {errors.password && (
-          <span>
-            문자, 숫자를 조합하여 최소 6자 이상, 15자 이하로 입력해주세요.
-          </span>
-        )}
-      </div>
-
-      <div className="inputContainer">
-        <input
-          placeholder="비밀번호 재확인"
-          type="password"
-          {...register("re_password", {
-            required: true,
-            validate: (value) =>
-              value === password.current ||
-              "입력한 비밀번호가 일치하지 않습니다.",
-          })}
-        />
-        {errors.re_password && <span>{errors.re_password.message}</span>}
-      </div>
-      {joinErr && <span>{joinErr}</span>}
+          <div className="inputContainer">
+            <input
+              placeholder="비밀번호 재확인"
+              type="password"
+              {...register("re_password", {
+                required: true,
+                validate: (value) =>
+                  value === password.current ||
+                  "입력한 비밀번호가 일치하지 않습니다.",
+              })}
+            />
+            {errors.re_password && <span>{errors.re_password.message}</span>}
+          </div>
+          {joinErr && <span>{joinErr}</span>}
+        </>
+      )}
       <button>{joinLoading ? <LoadingOutlined /> : "제출"}</button>
     </form>
   );

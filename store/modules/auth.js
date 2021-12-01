@@ -74,7 +74,6 @@ export const authSlice = createSlice({
 
     //회원가입
     builder.addCase(joinAction.pending, (state) => {
-      state.authInfo = null;
       state.joinErr = null;
       state.joinLoading = true;
     });

@@ -3,9 +3,11 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import Link from "next/link";
+import Image from "next/image";
 import { loginAction } from "../../store/action/auth";
 import { LoadingOutlined } from "@ant-design/icons";
 import { serverAPI } from "../../store/action/config";
+import kakaoLogin from "../../public/images/kakao_login.png";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -76,7 +78,7 @@ const Login = () => {
         </Link>
         <Link href={`${serverAPI}/auth/kakao`}>
           <a>
-            <button type="button">카카오로 로그인</button>
+            <Image src={kakaoLogin} height={40} objectFit="contain" />
           </a>
         </Link>
       </div>
