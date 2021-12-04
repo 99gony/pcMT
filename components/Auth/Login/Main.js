@@ -36,15 +36,17 @@ const MainLogin = () => {
     <LoginForm onSubmit={handleSubmit(onSubmit)}>
       <div className="inputContainer">
         <input
-          placeholder="이메일"
+          placeholder="아이디"
           autoComplete="off"
-          {...register("email", {
+          {...register("uid", {
             required: true,
-            pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+            minLength: 6,
+            maxLength: 20,
+            pattern: /^[0-9a-z]+$/,
           })}
         />
-        {errors.email && (
-          <span className="frontErr">이메일 형식에 맞게 입력해주세요.</span>
+        {errors.uid && (
+          <span className="frontErr">영문, 숫자 6~20자로 입력해주세요.</span>
         )}
       </div>
 

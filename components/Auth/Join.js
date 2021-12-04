@@ -1,12 +1,11 @@
 import React, { useCallback, useEffect, useRef } from "react";
-import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { joinAction } from "../../store/action/auth";
 import { useRouter } from "next/router";
 import { LoadingOutlined } from "@ant-design/icons";
 
-const Join = (props) => {
+const Join = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const joinErr = useSelector((state) => state.auth.joinErr);
@@ -85,14 +84,18 @@ const Join = (props) => {
         <>
           <div className="inputContainer">
             <input
-              placeholder="이메일"
+              placeholder="아이디"
               autoComplete="off"
-              {...register("email", {
+              {...register("uid", {
                 required: true,
-                pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                minLength: 6,
+                maxLength: 20,
+                pattern: /^[0-9a-z]+$/,
               })}
             />
-            {errors.email && <span>이메일 형식에 맞게 입력해주세요.</span>}
+            {errors.uid && (
+              <span>아이디는 영문, 숫자 6~20자로 입력해주세요.</span>
+            )}
           </div>
 
           <div className="inputContainer">
@@ -131,7 +134,5 @@ const Join = (props) => {
     </form>
   );
 };
-
-Join.propTypes = {};
 
 export default Join;
