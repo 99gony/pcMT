@@ -70,6 +70,7 @@ export const authSlice = createSlice({
         state.logoutErr =
           "엠티(MT)가 응답하지 않습니다. 잠시 후 다시 시도해주세요.";
       }
+      state.authInfo = null;
     });
 
     //회원가입

@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
@@ -9,6 +9,7 @@ import Link from "next/link";
 
 const MainLogin = () => {
   const dispatch = useDispatch();
+  const [isAutoLogin, setIsAutoLogin] = useState(false);
   const loginErr = useSelector((state) => state.auth.loginErr);
   const loginLoading = useSelector((state) => state.auth.loginLoading);
 
@@ -18,10 +19,17 @@ const MainLogin = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = useCallback((data) => {
-    if (!loginLoading) {
-      dispatch(loginAction(data));
-    }
+  const onSubmit = useCallback(
+    (data) => {
+      if (!loginLoading) {
+        dispatch(loginAction({ ...data, isAutoLogin }));
+      }
+    },
+    [isAutoLogin, loginLoading]
+  );
+
+  const onChangeAutoLogin = useCallback((e) => {
+    setIsAutoLogin(e.target.checked);
   }, []);
 
   return (
@@ -50,7 +58,9 @@ const MainLogin = () => {
           <span className="frontErr">비밀번호를 입력해주세요.</span>
         )}
       </div>
-      <CheckBoxWrapper onChange={() => {}}>로그인 유지</CheckBoxWrapper>
+      <CheckBoxWrapper onChange={onChangeAutoLogin}>
+        로그인 유지
+      </CheckBoxWrapper>
       {loginErr && <span className="backErr">{loginErr}</span>}
       <div className="buttons">
         <MainButton htmlType="submit">

@@ -60,7 +60,7 @@ export const CheckBoxWrapper = styled(Checkbox)`
   margin: 0 6px;
 
   span {
-    padding: 0 3px;
+    padding: 0 4px;
   }
 
   .ant-checkbox {

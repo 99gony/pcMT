@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect } from "react";
-import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutAction } from "../../store/action/auth";
 import { useRouter } from "next/router";
@@ -37,16 +36,19 @@ const UserInfo = (props) => {
     }
   }, [authInfo]);
 
+  useEffect(() => {
+    if (logoutErr) {
+      alert(logoutErr);
+    }
+  }, [logoutErr]);
+
   return (
     <div>
       <span>{authInfo.nickname}</span>
       로그인 되었습니다.
-      {logoutErr && <span>{logoutErr}</span>}
       <button onClick={onLogout}>로그아웃</button>
     </div>
   );
 };
-
-UserInfo.propTypes = {};
 
 export default UserInfo;
