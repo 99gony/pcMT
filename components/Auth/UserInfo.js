@@ -11,7 +11,7 @@ const UserInfo = (props) => {
   const authInfo = useSelector((state) => state.auth.authInfo);
   const logoutErr = useSelector((state) => state.auth.logoutErr);
 
-  const onLogout = useCallback(() => {
+  const onLogout = useCallback(async () => {
     if (authInfo.provider === "kakao") {
       return router.push({
         pathname: "https://kauth.kakao.com/oauth/logout",

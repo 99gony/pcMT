@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 import ChatIntro from "./ChatIntro";
 import styled from "styled-components";
 import CommunityIntro from "./CommunityIntro";
-import Login from "../Auth/Login";
 import { useSelector } from "react-redux";
 import UserInfo from "../Auth/UserInfo";
+import Login from "../Auth/Login";
 
 const IntroWrapper = styled.div`
   height: 570px;
