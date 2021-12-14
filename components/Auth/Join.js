@@ -1,20 +1,21 @@
 import React, { useCallback, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
-import { joinAction } from "../../store/action/auth";
+import { emailCheckAction, joinAction } from "../../store/action/auth";
 import { useRouter } from "next/router";
 import { LoadingOutlined } from "@ant-design/icons";
 
 const Join = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const joinErr = useSelector((state) => state.auth.joinErr);
-  const joinLoading = useSelector((state) => state.auth.joinLoading);
-  const authInfo = useSelector((state) => state.auth.authInfo);
+  const { joinErr, joinLoading, authInfo, emailCheckMsg, emailCheckLoading } =
+    useSelector((state) => state.auth);
 
   const {
     register,
     handleSubmit,
+    getValues,
+    trigger,
     formState: { errors },
     watch,
   } = useForm();
@@ -31,6 +32,13 @@ const Join = () => {
     },
     [authInfo]
   );
+
+  const checkEmail = useCallback(async () => {
+    const isEmail = await trigger("email");
+    if (isEmail) {
+      dispatch(emailCheckAction({ targetMail: getValues("email") }));
+    }
+  }, []);
 
   useEffect(() => {
     if (
@@ -84,18 +92,23 @@ const Join = () => {
         <>
           <div className="inputContainer">
             <input
-              placeholder="아이디"
+              placeholder="이메일"
               autoComplete="off"
-              {...register("uid", {
+              {...register("email", {
                 required: true,
-                minLength: 6,
-                maxLength: 20,
-                pattern: /^[0-9a-z]+$/,
+                pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
               })}
             />
-            {errors.uid && (
-              <span>아이디는 영문, 숫자 6~20자로 입력해주세요.</span>
-            )}
+            <button
+              type="button"
+              disabled={emailCheckLoading}
+              onClick={checkEmail}
+            >
+              {emailCheckLoading ? <LoadingOutlined /> : "이메일 인증"}
+            </button>
+
+            {errors.email && <span>이메일 형식에 맞게 입력해주세요.</span>}
+            {emailCheckMsg && <span>{emailCheckMsg}</span>}
           </div>
 
           <div className="inputContainer">

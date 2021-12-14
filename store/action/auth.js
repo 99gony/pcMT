@@ -44,3 +44,15 @@ export const joinAction = createAsyncThunk(
     }
   }
 );
+
+export const emailCheckAction = createAsyncThunk(
+  "auth/email",
+  async (data, { rejectWithValue }) => {
+    try {
+      const result = await axios.post(serverAPI + "/auth/email", data);
+      return result.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);

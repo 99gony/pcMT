@@ -32,8 +32,8 @@ const SocialLogin = () => {
             <div>
               <Image
                 src={naverLogin}
-                height={15}
-                width={15}
+                height={14}
+                width={14}
                 objectFit="contain"
               />
             </div>

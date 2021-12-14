@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
+  emailCheckAction,
   joinAction,
   loginAction,
   logoutAction,
@@ -21,6 +22,10 @@ const initialState = {
   //회원가입
   joinErr: null,
   joinLoading: false,
+
+  //이메일 인증
+  emailCheckMsg: null,
+  emailCheckLoading: false,
 };
 
 export const authSlice = createSlice({
@@ -90,6 +95,20 @@ export const authSlice = createSlice({
         state.joinErr =
           "엠티(MT)가 응답하지 않습니다. 잠시 후 다시 시도해주세요.";
       }
+    });
+
+    //이메일 인증
+    builder.addCase(emailCheckAction.pending, (state) => {
+      state.emailCheckMsg = null;
+      state.emailCheckLoading = true;
+    });
+    builder.addCase(emailCheckAction.fulfilled, (state, action) => {
+      state.emailCheckLoading = false;
+      state.emailCheckMsg = action.payload;
+    });
+    builder.addCase(emailCheckAction.rejected, (state, action) => {
+      state.emailCheckLoading = false;
+      state.emailCheckMsg = action.payload;
     });
   },
 });
