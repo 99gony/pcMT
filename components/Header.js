@@ -22,7 +22,7 @@ const Header = (props) => {
   return (
     <HeaderWrapper>
       <div>
-        <div>로고이미지</div>
+        <div>로고</div>
         <div>채팅아이콘 | 게시판 아이콘 | 내정보 아이콘</div>
       </div>
     </HeaderWrapper>
